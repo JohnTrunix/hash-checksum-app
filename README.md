@@ -21,12 +21,3 @@ pip install -r requirements.txt
 ```cmd
 python hasher.py
 ```
-
-<pre>
-
-
-
-
-</pre>
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H2H0DTCU5)
