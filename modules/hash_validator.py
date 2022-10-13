@@ -4,6 +4,8 @@ Hash and Checksum Validator Page
 import tkinter as tk
 from tkinter import ttk
 
+from modules.popup import Popup
+
 
 class HashValidatorPage(tk.Frame):
     """
@@ -84,17 +86,17 @@ class HashValidatorPage(tk.Frame):
             row=0, column=0, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
 
         self.fh_help_button = ttk.Button(
-            self.fh_action_buttons_frame, text='Help')
+            self.fh_action_buttons_frame, text='Help', command=self.help)
         self.fh_help_button.grid(
             row=0, column=1, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
 
         self.fh_clear_button = ttk.Button(
-            self.fh_action_buttons_frame, text='Clear')
+            self.fh_action_buttons_frame, text='Clear', command=self.clear)
         self.fh_clear_button.grid(
             row=0, column=2, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
 
         self.fh_verify_button = ttk.Button(
-            self.fh_action_buttons_frame, text='Verify')
+            self.fh_action_buttons_frame, text='Verify', command=self.verify)
         self.fh_verify_button.grid(
             row=0, column=3, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
 
@@ -103,3 +105,27 @@ class HashValidatorPage(tk.Frame):
             self, height=12, state='disabled')
         self.fh_output_textbox.grid(
             row=4, column=0, padx=self.frame_padx+self.widget_padx, pady=(0, self.frame_pady), sticky='ew')
+
+    def help(self):
+        """
+        Help Button Function
+        """
+        Popup(
+            self, 'Help', 'Help 1, 2, 3 Test Test Test', True, True)
+        print('Help')
+
+    def clear(self):
+        """
+        Clear Button Function
+        """
+        print('Clear')
+
+    def verify(self):
+        """
+        Verify Button Function
+        """
+        if self.fh_hash_combobox.get() is not None:
+            print(self.fh_hash_combobox.get())
+        else:
+
+            print('pop up error message')

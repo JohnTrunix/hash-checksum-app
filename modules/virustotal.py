@@ -6,8 +6,6 @@ from configparser import ConfigParser
 import tkinter as tk
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
-from turtle import width
-import matplotlib.pyplot as plt
 import requests as r
 from modules.available_hashes import sha256_hash
 
@@ -23,6 +21,7 @@ class VirustotalPage(tk.Frame):
         self.frame_pady = 20
         self.widget_padx = 10
         self.widget_pady = 10
+        self.api_id_url = 'https://www.virustotal.com/api/v3/files/'
         self.result = {}
         self.columnconfigure(0, weight=1)
 
@@ -58,9 +57,8 @@ class VirustotalPage(tk.Frame):
         self.tree = ttk.Treeview(self, columns=(
             'flag', 'values'), show='headings')
         self.tree.heading('flag', text='Flag')
-        self.tree.column('flag', width=100)
         self.tree.heading('values', text='Values')
-        self.tree.column('values', width=10, anchor='center')
+        self.tree.column('values', anchor='center')
         self.tree.grid(row=1, column=0, padx=self.frame_padx,
                        pady=self.frame_pady, sticky='ew')
 
@@ -82,8 +80,8 @@ class VirustotalPage(tk.Frame):
         api_key = config['main_settings']['api_key']
         filepath = self.filepath_textbox.get('1.0', 'end').strip()
         hash_result = sha256_hash(filepath)
-        response = r.get('https://www.virustotal.com/api/v3/files/' +
-                         hash_result, headers={'x-apikey': api_key}, timeout=30)
+        response = r.get(self.api_id_url + hash_result,
+                         headers={'x-apikey': api_key}, timeout=30)
         self.result = response.json().get('data').get(
             'attributes').get('last_analysis_stats')
         self.refresh_treeview()

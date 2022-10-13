@@ -1,3 +1,8 @@
+"""
+Hash-Checksum-App
+Author: JohnTrunix
+Version: 1.2.0
+"""
 import tkinter as tk
 from tkinter import ttk
 
@@ -18,7 +23,7 @@ class App(tk.Tk):
         # Tkinter Window Basci Config
         self.title(f'Hasher / Checksum Verifier (V{self.__version__})')
         self.iconbitmap('hash.ico')
-        self.geometry('700x800+800+200')
+        self.geometry('700x800')
         self.resizable(False, False)
         self.attributes('-topmost', True)
 
@@ -36,6 +41,14 @@ class App(tk.Tk):
         #self.notebook.tab(0, state='disabled')
         #self.notebook.tab(1, state='disabled')
         #self.notebook.tab(2, state='disabled')
+
+        # self.check_update()
+
+    def check_update(self):
+        """
+        Check if there is a new version available on GitHub
+        """
+        pass
 
 
 if __name__ == '__main__':
