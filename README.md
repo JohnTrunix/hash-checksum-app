@@ -19,5 +19,11 @@ pip install -r requirements.txt
 ## Usage
 
 ```cmd
-python hasher.py
+python app.py
+```
+
+## Pyinstaller
+
+```cmd
+pyinstaller --onefile --noconsole --clean  --add-data "hash.ico;." app.py
 ```

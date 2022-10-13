@@ -3,6 +3,7 @@ Hash-Checksum-App
 Author: JohnTrunix
 Version: 1.2.0
 """
+import os
 import tkinter as tk
 from tkinter import ttk
 
@@ -19,10 +20,11 @@ class App(tk.Tk):
 
     def __init__(self):
         super().__init__()
+        self.icon_path = os.path.join(os.path.dirname(__file__), 'hash.ico')
 
         # Tkinter Window Basci Config
         self.title(f'Hasher / Checksum Verifier (v{self.__version__})')
-        self.iconbitmap('hash.ico')
+        self.iconbitmap(default=self.icon_path)
         self.geometry('700x800')
         self.resizable(False, False)
         self.attributes('-topmost', True)
