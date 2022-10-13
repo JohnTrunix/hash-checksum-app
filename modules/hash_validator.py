@@ -110,9 +110,7 @@ class HashValidatorPage(tk.Frame):
         """
         Help Button Function
         """
-        Popup(
-            self, 'Help', 'Help 1, 2, 3 Test Test Test', True, True)
-        print('Help')
+        Popup(1, 'Help', 'On this Tab you can calculate hashes of files and check with the checksum').create_popup()
 
     def clear(self):
         """
@@ -124,7 +122,7 @@ class HashValidatorPage(tk.Frame):
         """
         Verify Button Function
         """
-        if self.fh_hash_combobox.get() is not None:
+        if self.fh_hash_combobox.get():
             print(self.fh_hash_combobox.get())
         else:
 

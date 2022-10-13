@@ -2,42 +2,35 @@
 Class for the popup window
 """
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox
 
 
-class Popup(tk.Toplevel):
+class Popup():
     """
     Popup Window
     """
 
-    def __init__(self, container, title: str, text: str, ok_button: bool, cancel_button: bool):
-        super().__init__(container)
-        self.padx = 20
-        self.pady = 20
+    def __init__(self, message_type: int, title: str, text: str):
+        super().__init__()
         self.title_value = title
         self.text_value = text
-        self.geometry('300x300')
-        self.title(self.title_value)
-        self.resizable(False, False)
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
+        self.message_type = message_type
 
-        self._label = ttk.Label(
-            self, text=self.text_value, wraplength=260, justify='left', anchor='center')
-        self._label.grid(
-            row=0, column=0, columnspan=2, padx=self.padx, pady=self.pady, sticky='ew')
-
-        if ok_button:
-            self._ok_button = ttk.Button(
-                self, text='OK')
-            self._ok_button.grid(
-                row=1, column=0, padx=self.padx, pady=self.pady, sticky='ew')
-
-        if cancel_button:
-            self._cancel_button = ttk.Button(
-                self, text='Cancel')
-            self._cancel_button.grid(
-                row=1, column=1, padx=self.padx, pady=self.pady, sticky='ew')
-
-        self.mainloop()
+    def create_popup(self):
+        """
+        Creates Messagebox Popup
+        """
+        if self.message_type == 1:
+            messagebox.showinfo(self.title_value, self.text_value)
+        elif self.message_type == 2:
+            messagebox.showwarning(
+                self.title_value, self.text_value)
+        elif self.message_type == 3:
+            messagebox.showerror(self.title_value, self.text_value)
+        elif self.message_type == 4:
+            answer = messagebox.askyesno(self.title_value, self.text_value)
+            return answer
+        elif self.message_type == 5:
+            answer = messagebox.askokcancel(
+                self.title_value, self.text_value)
+            return answer

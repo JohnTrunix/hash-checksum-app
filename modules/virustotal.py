@@ -67,7 +67,7 @@ class VirustotalPage(tk.Frame):
         Browse for file
         """
         file_path = askopenfilename()
-        if file_path is not None:
+        if file_path:
             self.filepath_textbox.delete('1.0', 'end')
             self.filepath_textbox.insert('1.0', file_path)
 
