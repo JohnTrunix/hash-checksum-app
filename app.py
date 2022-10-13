@@ -15,24 +15,24 @@ class App(tk.Tk):
     """
     Tkinter App Instance
     """
-    __version__ = '1.2.0'
+    __version__ = '2.0.0'
 
     def __init__(self):
         super().__init__()
 
         # Tkinter Window Basci Config
-        self.title(f'Hasher / Checksum Verifier (V{self.__version__})')
+        self.title(f'Hasher / Checksum Verifier (v{self.__version__})')
         self.iconbitmap('hash.ico')
         self.geometry('700x800')
         self.resizable(False, False)
         self.attributes('-topmost', True)
 
         # Tkinter Notebook Config
-        self.notebook = ttk.Notebook(self)
+        self.notebook: object = ttk.Notebook(self)
         self.notebook.pack(fill='both', expand=True, padx=5, pady=5)
-        self.f_hasher = HashValidatorPage(self.notebook)
-        self.f_virustotal = VirustotalPage(self.notebook)
-        self.f_settings = SettingsPage(self.notebook)
+        self.f_hasher: object = HashValidatorPage(self.notebook)
+        self.f_virustotal: object = VirustotalPage(self.notebook)
+        self.f_settings: object = SettingsPage(self.notebook)
         self.notebook.add(self.f_hasher, text='Hasher/Checksum Verifier')
         self.notebook.add(self.f_virustotal, text='VirusTotal Scanner')
         self.notebook.add(self.f_settings, text='Settings')
@@ -44,7 +44,7 @@ class App(tk.Tk):
 
         # self.check_update()
 
-    def check_update(self):
+    def check_update(self) -> None:
         """
         Check if there is a new version available on GitHub
         """
