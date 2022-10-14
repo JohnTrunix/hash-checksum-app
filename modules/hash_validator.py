@@ -153,7 +153,7 @@ class HashValidatorPage(tk.Frame):
             self.checksum: str = self.fh_checksum_textbox.get('1.0', 'end-1c')
             self.hash_algorithm: str = self.fh_hash_combobox.get()
 
-            if self.filepath is not None and self.hash_algorithm is not None:
+            if self.filepath and self.hash_algorithm:
                 if self.hash_algorithm == 'SHA-256':
                     self.hash_result: str = sha256_hash(self.filepath)
                 elif self.hash_algorithm == 'SHA-512':
