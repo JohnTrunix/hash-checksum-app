@@ -24,6 +24,10 @@ class VirustotalPage(tk.Frame):
         self.widget_padx: int = 10
         self.widget_pady: int = 10
         self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        self.columnconfigure(2, weight=1)
+        self.columnconfigure(3, weight=1)
+        self.columnconfigure(4, weight=1)
 
         self.filepath: str = None
         self.api_id_url: str = 'https://www.virustotal.com/api/v3/files/'
@@ -33,7 +37,7 @@ class VirustotalPage(tk.Frame):
         self.filepath_frame: object = ttk.LabelFrame(
             self, text='File Path:')
         self.filepath_frame.grid(
-            row=0, column=0, padx=self.frame_padx, pady=self.frame_pady, sticky='ew')
+            row=0, column=0, columnspan=5, padx=self.frame_padx, pady=self.frame_pady, sticky='ew')
         self.filepath_frame.columnconfigure(0, weight=1)
         self.filepath_frame.columnconfigure(1, weight=1)
         self.filepath_frame.columnconfigure(2, weight=1)
@@ -44,16 +48,6 @@ class VirustotalPage(tk.Frame):
             self.filepath_frame, height=1)
         self.filepath_textbox.grid(row=0, column=0, columnspan=5, padx=self.widget_padx,
                                    pady=self.widget_pady, sticky='ew')
-
-        self.quit_button: object = ttk.Button(
-            self.filepath_frame, text='Quit', command=container.master.destroy)
-        self.quit_button.grid(
-            row=1, column=0, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
-
-        self.help_button: object = ttk.Button(
-            self.filepath_frame, text='Help', command=self.help)
-        self.help_button.grid(
-            row=1, column=1, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
 
         self.clear_button: object = ttk.Button(
             self.filepath_frame, text='Clear', command=self.clear)
@@ -75,8 +69,19 @@ class VirustotalPage(tk.Frame):
         self.tree.heading('flag', text='Flag')
         self.tree.heading('values', text='Values')
         self.tree.column('values', anchor='center')
-        self.tree.grid(row=1, column=0, padx=self.frame_padx,
+        self.tree.grid(row=1, column=0, columnspan=5, padx=self.frame_padx,
                        pady=self.frame_pady, sticky='ew')
+
+        # General Buttons
+        self.help_button: object = ttk.Button(
+            self, text='Help', command=self.help)
+        self.help_button.grid(
+            row=2, column=3, padx=self.frame_padx, pady=self.frame_pady, sticky='ew')
+
+        self.quit_button: object = ttk.Button(
+            self, text='Quit', command=container.master.destroy)
+        self.quit_button.grid(
+            row=2, column=4, padx=(0, self.frame_padx), pady=self.frame_pady, sticky='ew')
 
     def help(self) -> None:
         """
