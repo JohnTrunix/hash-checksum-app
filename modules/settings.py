@@ -25,6 +25,15 @@ class SettingsPage(tk.Frame):
         self.columnconfigure(2, weight=1)
         self.columnconfigure(3, weight=1)
 
+        self.settings_theme_combobox_options: list = [
+            'default',
+            'clam',
+            'alt',
+            'classic',
+            'vista',
+            'xpnative'
+        ]
+
         # Frame Config
         self.settings_frame: object = ttk.LabelFrame(
             self, text='Settings:')
@@ -38,18 +47,26 @@ class SettingsPage(tk.Frame):
             self.settings_frame, text='Virustotal API Key:')
         self.label_api_key.grid(
             row=0, column=0, padx=self.widget_padx, pady=self.widget_pady, sticky='w')
-        self.settings_textbox: object = tk.Entry(
+        self.settings_api_textbox: object = tk.Entry(
             self.settings_frame)
-        self.settings_textbox.grid(
+        self.settings_api_textbox.grid(
             row=0, column=1, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
+        self.settings_theme_label: object = ttk.Label(
+            self.settings_frame, text='Theme (restart required):')
+        self.settings_theme_label.grid(
+            row=1, column=0, padx=self.widget_padx, pady=self.widget_pady, sticky='w')
+        self.settings_theme_combobox: object = ttk.Combobox(
+            self.settings_frame, values=self.settings_theme_combobox_options, state='readonly')
+        self.settings_theme_combobox.grid(
+            row=1, column=1, padx=self.widget_padx, pady=self.widget_pady, sticky='ew')
         self.label_version_title: object = ttk.Label(
             self.settings_frame, text='Version:')
         self.label_version_title.grid(
-            row=1, column=0, padx=self.widget_padx, pady=self.widget_pady, sticky='w')
+            row=2, column=0, padx=self.widget_padx, pady=self.widget_pady, sticky='w')
         self.label_version: object = ttk.Label(
             self.settings_frame, text=f'V{container.master.__version__}')
         self.label_version.grid(
-            row=1, column=1, padx=self.frame_padx, pady=(0, self.frame_pady), sticky='ew')
+            row=2, column=1, padx=self.frame_padx, pady=(0, self.frame_pady), sticky='ew')
 
         # Buttons
         self.button_quit: object = ttk.Button(
@@ -93,8 +110,8 @@ class SettingsPage(tk.Frame):
             config.add_section('ADVANCED')
 
         # Check for options
-        if not config.has_option('MAIN', 'version'):
-            config.set('MAIN', 'version', '1.0')
+        if not config.has_option('MAIN', 'config_version'):
+            config.set('MAIN', 'config_version', '1.0')
         if not config.has_option('MAIN', 'language'):
             config.set('MAIN', 'language', 'en')
         if not config.has_option('MAIN', 'api_key'):
@@ -109,9 +126,18 @@ class SettingsPage(tk.Frame):
         # Load settings
         self.main_settings: list = config['MAIN']
         self.api_key: str = self.main_settings['api_key']
+        self.advance_settings: list = config['ADVANCED']
+        self.theme: str = self.advance_settings['theme']
 
-        self.settings_textbox.delete(0, tk.END)
-        self.settings_textbox.insert(0, self.api_key)
+        self.settings_api_textbox.delete(0, tk.END)
+        self.settings_api_textbox.insert(0, self.api_key)
+        self.settings_theme_combobox.set(self.theme)
+
+        self.app_theme: object = ttk.Style()
+        try:
+            self.app_theme.theme_use(self.theme)
+        except tk.TclError:
+            self.app_theme.theme_use('default')
 
     def save_settings(self) -> None:
         """
@@ -119,7 +145,8 @@ class SettingsPage(tk.Frame):
         """
         config = ConfigParser()
         config.read('config.ini')
-        config.set('MAIN', 'api_key', self.settings_textbox.get())
+        config.set('MAIN', 'api_key', self.settings_api_textbox.get())
+        config.set('ADVANCED', 'theme', self.settings_theme_combobox.get())
         with open('config.ini', 'w', encoding='utf8') as configfile:
             config.write(configfile)
 
