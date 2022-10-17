@@ -77,13 +77,37 @@ class SettingsPage(tk.Frame):
         Load Settings
         """
         config: object = ConfigParser()
+
+        # Check for config file
         if not os.path.isfile('config.ini'):
-            config.add_section('main_settings')
-            config.set('main_settings', 'api_key', 'None')
-            with open('config.ini', 'w', encoding='utf8') as configfile:
+            with open('config.ini', 'w') as configfile:
                 config.write(configfile)
+
+        # Load config file
         config.read('config.ini')
-        self.main_settings: list = config['main_settings']
+
+        # Check for sections
+        if not config.has_section('MAIN'):
+            config.add_section('MAIN')
+        if not config.has_section('ADVANCED'):
+            config.add_section('ADVANCED')
+
+        # Check for options
+        if not config.has_option('MAIN', 'version'):
+            config.set('MAIN', 'version', '1.0')
+        if not config.has_option('MAIN', 'language'):
+            config.set('MAIN', 'language', 'en')
+        if not config.has_option('MAIN', 'api_key'):
+            config.set('MAIN', 'api_key', 'None')
+        if not config.has_option('ADVANCED', 'theme'):
+            config.set('ADVANCED', 'theme', 'default')
+
+        # Write config file
+        with open('config.ini', 'w', encoding='utf8') as configfile:
+            config.write(configfile)
+
+        # Load settings
+        self.main_settings: list = config['MAIN']
         self.api_key: str = self.main_settings['api_key']
 
         self.settings_textbox.delete(0, tk.END)
@@ -95,7 +119,7 @@ class SettingsPage(tk.Frame):
         """
         config = ConfigParser()
         config.read('config.ini')
-        config.set('main_settings', 'api_key', self.settings_textbox.get())
+        config.set('MAIN', 'api_key', self.settings_textbox.get())
         with open('config.ini', 'w', encoding='utf8') as configfile:
             config.write(configfile)
 

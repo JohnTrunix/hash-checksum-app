@@ -120,7 +120,7 @@ class VirustotalPage(tk.Frame):
             if self.filepath:
                 config: object = ConfigParser()
                 config.read('config.ini')
-                api_key: str = config['main_settings']['api_key']
+                api_key: str = config['MAIN']['api_key']
                 hash_result: str = sha256_hash(self.filepath)
                 response: dict = r.get(self.api_id_url + hash_result,
                                        headers={'x-apikey': api_key}, timeout=30)
