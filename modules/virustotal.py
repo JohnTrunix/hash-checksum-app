@@ -1,7 +1,7 @@
 """
 Virustotal Page
 """
-
+import os
 from configparser import ConfigParser
 import tkinter as tk
 from tkinter import ttk
@@ -112,20 +112,28 @@ class VirustotalPage(tk.Frame):
         try:
             self.filepath: str = self.filepath_textbox.get(
                 '1.0', 'end').strip()
-            if self.filepath:
+            if os.path.isfile(self.filepath):
                 config: object = ConfigParser()
                 config.read('config.ini')
                 api_key: str = config['main_settings']['api_key']
                 hash_result: str = sha256_hash(self.filepath)
                 response: dict = r.get(self.api_id_url + hash_result,
                                        headers={'x-apikey': api_key}, timeout=30)
-                self.result: dict = response.json().get('data').get(
-                    'attributes').get('last_analysis_stats')
-                self.refresh_treeview()
+                if response.status_code == 200:
+                    self.result: dict = response.json().get('data').get(
+                        'attributes').get('last_analysis_stats')
+                    self.refresh_treeview()
+                else:
+                    raise r.exceptions.RequestException
             else:
                 raise ValueError('No file selected')
         except (FileNotFoundError, ValueError):
             Popup(3, 'Error', 'Please enter a valid file path.').create_popup()
+
+        except r.exceptions.RequestException as error:
+            print(error)
+            Popup(
+                3, 'Error', 'Virustotal probably does not know the hash or your API key is wrong').create_popup()
 
     def refresh_treeview(self) -> None:
         """
